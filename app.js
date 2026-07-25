@@ -826,6 +826,15 @@ function joinSessionCall(partnerName) {
   alert(`Connecting to live video call session with ${partnerName}... Room is active!`);
 }
 
+function togglePasswordVisibility(passwordId) {
+  const passwordInput = document.getElementById(passwordId);
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+  } else {
+    passwordInput.type = "password";
+  }
+}
 // Initial load setup
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -847,6 +856,7 @@ window.toggleSidebarMenu = toggleSidebarMenu;
 window.toggleNotificationDropdown = toggleNotificationDropdown;
 window.clearNotifications = clearNotifications;
 window.toggleTheme = toggleTheme;
+window.togglePasswordVisibility = togglePasswordVisibility;
 
 window.connectUser = connectUser;
 window.openBookingModal = openBookingModal;
