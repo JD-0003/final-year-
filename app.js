@@ -1,9 +1,10 @@
 // ========================================================================= //
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { 
+import {
+  getAuth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -835,16 +836,49 @@ function togglePasswordVisibility(passwordId) {
     passwordInput.type = "password";
   }
 }
+
 // Initial load setup
 document.addEventListener('DOMContentLoaded', () => {
+
   initTheme();
-  updateDashboardUI();
 
   document.getElementById('form-login')
     ?.addEventListener('submit', handleLoginSubmit);
 
   document.getElementById('form-signup')
     ?.addEventListener('submit', handleSignupSubmit);
+
+  // Check Firebase login state
+  onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+      // User already logged in
+      console.log("User already logged in:", user.email);
+
+      document.getElementById('portal-view')
+        ?.classList.remove('active-view');
+
+      document.getElementById('dashboard-frame')
+        ?.classList.remove('hide');
+
+      currentUser.email = user.email;
+
+      updateDashboardUI();
+      switchDashboardView('home');
+
+    } else {
+      // User is not logged in
+      console.log("No user logged in");
+
+      document.getElementById('portal-view')
+        ?.classList.add('active-view');
+
+      document.getElementById('dashboard-frame')
+        ?.classList.add('hide');
+    }
+
+  });
+
 });
 
 window.switchPortalTab = switchPortalTab;
