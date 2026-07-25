@@ -276,7 +276,21 @@ try {
     passwordInput
   );
 
-  showPortalAlert("Login Successful!", "success");
+  signInWithEmailAndPassword(auth, emailInput, passwordInput)
+.then((userCredential)=>{
+    showPortalAlert("Login successful!", "success");
+
+    setTimeout(() => {
+        document.getElementById('portal-view').classList.remove('active-view');
+        document.getElementById('dashboard-frame').classList.remove('hide');
+        updateDashboardUI();
+        switchDashboardView('home');
+    },800);
+
+})
+.catch((error)=>{
+    showPortalAlert(error.message);
+});
 
 } catch(error) {
 
