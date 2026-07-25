@@ -1,4 +1,24 @@
 // ========================================================================= //
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBBLfX6feh4cRVTxHXxlX6Rk932ekQWnuA",
+  authDomain: "skillswap-fc17b.firebaseapp.com",
+  projectId: "skillswap-fc17b",
+  storageBucket: "skillswap-fc17b.firebasestorage.app",
+  messagingSenderId: "697849253640",
+  appId: "1:697849253640:web:3b7e2886b6c8623c5aa6bd"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+console.log("Firebase Connected");
+
 // SkillSwap Dynamic Client Application Script                               //
 // ========================================================================= //
 
