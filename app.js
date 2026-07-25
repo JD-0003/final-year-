@@ -5,7 +5,11 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -294,14 +298,28 @@ async function handleSignupSubmit(event) {
   }
 
   try {
-    await createUserWithEmailAndPassword(
-      auth,
-      emailInput,
-      passwordInput
-    );
+    const userCredential = await createUserWithEmailAndPassword(
+  auth,
+  emailInput,
+  passwordInput
+);
 
-    currentUser.name = nameInput;
-    currentUser.email = emailInput;
+const user = userCredential.user;
+
+await setDoc(doc(db, "users", user.uid), {
+  name: nameInput,
+  email: emailInput,
+  experience: "",
+  bio: "",
+  skillsOffered: [],
+  skillsWanted: [],
+  rating: 0,
+  matchesCount: 0,
+  createdAt: new Date()
+});
+
+currentUser.name = nameInput;
+currentUser.email = emailInput;
 
     showPortalAlert(
       "Account created successfully! Please login.",
