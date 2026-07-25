@@ -245,6 +245,7 @@ async function handleLoginSubmit(event) {
     showPortalAlert("All fields are required.");
     return;
   }
+}
 
   try {
 
