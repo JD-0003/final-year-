@@ -180,7 +180,7 @@ function switchDashboardView(viewId) {
 
 // Switches Pre-Login Portal tabs between Login & Sign Up
 function switchPortalTab(tabType) {
-if (typesof closePortalAlert=="function"){
+if (typeof closePortalAlert=="function"){
   closePortalAlert();
 }
   
