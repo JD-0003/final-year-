@@ -443,6 +443,14 @@
             <button class="modal-close" onclick="toggleEditProfileModal(false)">&times;</button>
             <h3>Edit Profile Details</h3>
             <form id="form-edit-profile" onsubmit="handleProfileSave(event)">
+              <div class="input-group">
+  <label for="edit-profile-picture">Profile Picture</label>
+  <input
+    type="file"
+    id="edit-profile-picture"
+    accept="image/*"
+  >
+</div>
               
               <div class="input-group">
                 <label for="edit-name">Display Name</label>
