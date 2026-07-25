@@ -761,7 +761,12 @@ function joinSessionCall(partnerName) {
 }
 
 // Initial load setup
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => 
+{
   initTheme();
   updateDashboardUI();
+  document.getElementById('form-login')
+  ?.addEventListener('submit',handleLoginSubmit);
+  document.getElementById('from-signup')
+  ?.addEventListener('submit',handleSubmit);
 });
