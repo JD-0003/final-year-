@@ -9,7 +9,8 @@ import {
 import {
   getFirestore,
   doc,
-  setDoc
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Your web app's Firebase configuration
@@ -261,18 +262,23 @@ async function handleLoginSubmit(event) {
 
     showPortalAlert("Login successful! Redirecting...", "success");
 
-    setTimeout(() => {
+    setTimeout(async () => {
 
-      document.getElementById('portal-view')
-      .classList.remove('active-view');
+  document.getElementById('portal-view')
+    .classList.remove('active-view');
 
-      document.getElementById('dashboard-frame')
-      .classList.remove('hide');
+  document.getElementById('dashboard-frame')
+    .classList.remove('hide');
 
-      updateDashboardUI();
-      switchDashboardView('home');
+  const user = auth.currentUser;
 
-    },800);
+  if (user) {
+    await loadCurrentUserProfile(user);
+  }
+
+  switchDashboardView('home');
+
+}, 800);
 
   } catch(error) {
 
@@ -337,6 +343,57 @@ currentUser.email = emailInput;
   } catch (error) {
     showPortalAlert(error.message);
   }
+}
+async function loadCurrentUserProfile(user) {
+
+  try {
+
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+
+      const data = userSnap.data();
+
+      currentUser.name = data.name || user.displayName || "User";
+      currentUser.email = data.email || user.email || "";
+      currentUser.experience = data.experience || "";
+      currentUser.bio = data.bio || "";
+
+      currentUser.skillsOffered =
+        Array.isArray(data.skillsOffered)
+          ? data.skillsOffered
+          : [];
+
+      currentUser.skillsWanted =
+        Array.isArray(data.skillsWanted)
+          ? data.skillsWanted
+          : [];
+
+      currentUser.rating = data.rating || 0;
+      currentUser.matchesCount = data.matchesCount || 0;
+
+      // Profile picture
+      currentUser.avatar =
+        data.avatar ||
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256";
+
+      console.log("User profile loaded:", currentUser);
+
+      updateDashboardUI();
+
+    } else {
+
+      console.log("No Firestore profile found for this user.");
+
+    }
+
+  } catch (error) {
+
+    console.error("Error loading user profile:", error);
+
+  }
+
 }
 // --------------------------------------------------------- //
 // 4. Dynamic Data Rendering Mechanics                       //
@@ -848,36 +905,34 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('form-signup')
     ?.addEventListener('submit', handleSignupSubmit);
 
-  // Check Firebase login state
-  onAuthStateChanged(auth, (user) => {
+ // Check Firebase login state
+onAuthStateChanged(auth, async (user) => {
 
-    if (user) {
-      // User already logged in
-      console.log("User already logged in:", user.email);
+  if (user) {
+    // User already logged in
+    console.log("User already logged in:", user.email);
 
-      document.getElementById('portal-view')
-        ?.classList.remove('active-view');
+    document.getElementById('portal-view')
+      ?.classList.remove('active-view');
 
-      document.getElementById('dashboard-frame')
-        ?.classList.remove('hide');
+    document.getElementById('dashboard-frame')
+      ?.classList.remove('hide');
 
-      currentUser.email = user.email;
+    await loadCurrentUserProfile(user);
+    switchDashboardView('home');
 
-      updateDashboardUI();
-      switchDashboardView('home');
+  } else {
+    // User is not logged in
+    console.log("No user logged in");
 
-    } else {
-      // User is not logged in
-      console.log("No user logged in");
+    document.getElementById('portal-view')
+      ?.classList.add('active-view');
 
-      document.getElementById('portal-view')
-        ?.classList.add('active-view');
+    document.getElementById('dashboard-frame')
+      ?.classList.add('hide');
+  }
 
-      document.getElementById('dashboard-frame')
-        ?.classList.add('hide');
-    }
-
-  });
+});
 
 });
 
