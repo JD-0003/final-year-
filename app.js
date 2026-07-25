@@ -276,6 +276,51 @@ async function handleLoginSubmit(event) {
 
   }
 }
+async function handleSignupSubmit(event) {
+  event.preventDefault();
+  closePortalAlert();
+
+  const nameInput = document.getElementById('signup-name').value.trim();
+  const emailInput = document.getElementById('signup-email').value.trim();
+  const passwordInput = document.getElementById('signup-password').value;
+
+  if (!nameInput || !emailInput || !passwordInput) {
+    showPortalAlert("All fields are required.");
+    return;
+  }
+
+  if (passwordInput.length < 6) {
+    showPortalAlert("Password must be at least 6 characters.");
+    return;
+  }
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      emailInput,
+      passwordInput
+    );
+
+    currentUser.name = nameInput;
+    currentUser.email = emailInput;
+
+    showPortalAlert(
+      "Account created successfully! Please login.",
+      "success"
+    );
+
+    setTimeout(() => {
+      switchPortalTab('login');
+
+      document.getElementById('login-email').value = emailInput;
+      document.getElementById('login-password').value = "";
+    }, 1000);
+
+  } catch (error) {
+    showPortalAlert(error.message);
+  }
+}
+
 
 // --------------------------------------------------------- //
 // 4. Dynamic Data Rendering Mechanics                       //
@@ -767,15 +812,17 @@ function joinSessionCall(partnerName) {
 }
 
 // Initial load setup
-document.addEventListener('DOMContentLoaded', () => 
-{
+document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   updateDashboardUI();
+
   document.getElementById('form-login')
-  ?.addEventListener('submit',handleLoginSubmit);
+    ?.addEventListener('submit', handleLoginSubmit);
+
   document.getElementById('form-signup')
-  ?.addEventListener('submit',handleSignupSubmit);
+    ?.addEventListener('submit', handleSignupSubmit);
 });
+
 window.switchPortalTab = switchPortalTab;
 window.handleLoginSubmit = handleLoginSubmit;
 window.handleSignupSubmit = handleSignupSubmit;
