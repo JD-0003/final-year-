@@ -21,6 +21,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
 const db = getFirestore(app);
 
 console.log("Firebase Connected");
@@ -238,6 +241,13 @@ async function handleLoginSubmit(event) {
     return;
   }
 
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      emailInput,
+      passwordInput
+    );
 
     showPortalAlert("Login successful! Redirecting...", "success");
 
@@ -253,7 +263,6 @@ async function handleLoginSubmit(event) {
       switchDashboardView('home');
 
     },800);
-
 
   } catch(error) {
 
