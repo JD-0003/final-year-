@@ -236,13 +236,6 @@ async function handleLoginSubmit(event) {
     return;
   }
 
-  try {
-
-    await signInWithEmailAndPassword(
-      auth,
-      emailInput,
-      passwordInput
-    );
 
     showPortalAlert("Login successful! Redirecting...", "success");
 
