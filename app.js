@@ -214,7 +214,7 @@ function toggleSidebarMenu() {
 function closePortalAlert() {
   const alertBox =
     document.getElementById('portal-alert');
-  if (alterBox){
+  if (alertBox){
     alertBox.classList.add('hide');
   }
 }
