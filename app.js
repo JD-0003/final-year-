@@ -8,7 +8,7 @@ import {
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBBLfX6feh4cRVTxHXxlX6Rk932ekQWnuA",
+  apiKey: "YOUR KEY",
   authDomain: "skillswap-fc17b.firebaseapp.com",
   projectId: "skillswap-fc17b",
   storageBucket: "skillswap-fc17b.firebasestorage.app",
@@ -224,7 +224,6 @@ function showPortalAlert(message, type = 'error') {
 // --------------------------------------------------------- //
 // 3. User Authentication Controls (Mock Logic)              //
 // --------------------------------------------------------- //
-
 async function handleLoginSubmit(event) {
   event.preventDefault();
   closePortalAlert();
@@ -232,125 +231,40 @@ async function handleLoginSubmit(event) {
   const emailInput = document.getElementById('login-email').value.trim();
   const passwordInput = document.getElementById('login-password').value.trim();
 
-  // Simple visual validation
   if (!emailInput || !passwordInput) {
-    showPortalAlert("All fields are required. Please review inputs.");
+    showPortalAlert("All fields are required.");
     return;
   }
 
-  // Pre-login check (accepting any email format matching standard patterns)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(emailInput)) {
-    showPortalAlert("Please enter a valid email address.");
-    return;
-  }
+  try {
 
-  // Trigger login navigation animation
-  showPortalAlert("Logging in successfully! Redirecting...", "success");
-  
-  setTimeout(() => {
-    // Hide Portal View and reveal Dashboard framework
-    document.getElementById('portal-view').classList.remove('active-view');
-    document.getElementById('dashboard-frame').classList.remove('hide');
-    
-    // Set current active values
-    updateDashboardUI();
-    switchDashboardView('home');
-  }, 800);
-}
+    await signInWithEmailAndPassword(
+      auth,
+      emailInput,
+      passwordInput
+    );
 
-function handleSignupSubmit(event) {
-  event.preventDefault();
-  closePortalAlert();
-
-  const nameInput = document.getElementById('signup-name').value.trim();
-  const emailInput = document.getElementById('signup-email').value.trim();
-  const passwordInput = document.getElementById('signup-password').value;
-
-  if (passwordInput.length < 8) {
-try {
-
-  await signInWithEmailAndPassword(
-    auth,
-    emailInput,
-    passwordInput
-  );
-
-  signInWithEmailAndPassword(auth, emailInput, passwordInput)
-.then((userCredential)=>{
-    showPortalAlert("Login successful!", "success");
+    showPortalAlert("Login successful! Redirecting...", "success");
 
     setTimeout(() => {
-        document.getElementById('portal-view').classList.remove('active-view');
-        document.getElementById('dashboard-frame').classList.remove('hide');
-        updateDashboardUI();
-        switchDashboardView('home');
+
+      document.getElementById('portal-view')
+      .classList.remove('active-view');
+
+      document.getElementById('dashboard-frame')
+      .classList.remove('hide');
+
+      updateDashboardUI();
+      switchDashboardView('home');
+
     },800);
 
-})
-.catch((error)=>{
+
+  } catch(error) {
+
     showPortalAlert(error.message);
-});
 
-} catch(error) {
-
-  showPortalAlert(error.message);
-  return;
-
-}
-    return;
   }
-
-  // Set username to sign up details
-  currentUser.name = nameInput;
-  currentUser.email = emailInput;
-  
-  showPortalAlert("Account created successfully! Switching to login tab.", "success");
-  
-  setTimeout(() => {
-    switchPortalTab('login');
-    // Pre-fill email in password fields
-    document.getElementById('login-email').value = emailInput;
-    document.getElementById('login-password').value = "";
-  }, 1000);
-}
-
-function handleLogout() {
-  // Clear alerts in portal
-  closePortalAlert();
-  document.getElementById('login-password').value = "";
-  
-  // Transition back to Portal View
-  document.getElementById('dashboard-frame').classList.add('hide');
-  document.getElementById('portal-view').classList.add('active-view');
-  switchPortalTab('login');
-}
-
-function togglePasswordVisibility(fieldId) {
-  const passwordInput = document.getElementById(fieldId);
-  if (passwordInput.type === "password") {
-    passwordInput.type = "text";
-  } else {
-    passwordInput.type = "password";
-  }
-}
-
-// Forgot Password Flow
-function openForgotModal(event) {
-  event.preventDefault();
-  document.getElementById('modal-forgot-password').classList.add('active');
-}
-
-function closeForgotModal() {
-  document.getElementById('modal-forgot-password').classList.remove('active');
-  document.getElementById('forgot-email').value = "";
-}
-
-function handleForgotSubmit(event) {
-  event.preventDefault();
-  const email = document.getElementById('forgot-email').value.trim();
-  closeForgotModal();
-  showPortalAlert(`A reset link has been dispatched to ${email}!`, 'success');
 }
 
 // --------------------------------------------------------- //
