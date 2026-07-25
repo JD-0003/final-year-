@@ -769,6 +769,9 @@ document.addEventListener('DOMContentLoaded', () =>
   updateDashboardUI();
   document.getElementById('form-login')
   ?.addEventListener('submit',handleLoginSubmit);
-  document.getElementById('from-signup')
+  document.getElementById('form-signup')
   ?.addEventListener('submit',handleSignupSubmit);
 });
+window.switchPortalTap = switchPortalTab;
+window.handleLoginSubmit = handleLoginSubmit;
+window.handleSignupSubmit = handleSignupSubmit;
