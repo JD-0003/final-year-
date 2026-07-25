@@ -225,7 +225,7 @@ function showPortalAlert(message, type = 'error') {
 // 3. User Authentication Controls (Mock Logic)              //
 // --------------------------------------------------------- //
 
-function handleLoginSubmit(event) {
+async function handleLoginSubmit(event) {
   event.preventDefault();
   closePortalAlert();
 
@@ -268,7 +268,22 @@ function handleSignupSubmit(event) {
   const passwordInput = document.getElementById('signup-password').value;
 
   if (passwordInput.length < 8) {
-    showPortalAlert("Password must be at least 8 characters long.");
+try {
+
+  await signInWithEmailAndPassword(
+    auth,
+    emailInput,
+    passwordInput
+  );
+
+  showPortalAlert("Login Successful!", "success");
+
+} catch(error) {
+
+  showPortalAlert(error.message);
+  return;
+
+}
     return;
   }
 
