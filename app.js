@@ -768,5 +768,5 @@ document.addEventListener('DOMContentLoaded', () =>
   document.getElementById('form-login')
   ?.addEventListener('submit',handleLoginSubmit);
   document.getElementById('from-signup')
-  ?.addEventListener('submit',handleSubmit);
+  ?.addEventListener('submit',handleSignupSubmit);
 });
