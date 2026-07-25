@@ -772,6 +772,6 @@ document.addEventListener('DOMContentLoaded', () =>
   document.getElementById('form-signup')
   ?.addEventListener('submit',handleSignupSubmit);
 });
-window.switchPortalTap = switchPortalTab;
+window.switchPortalTab = switchPortalTab;
 window.handleLoginSubmit = handleLoginSubmit;
 window.handleSignupSubmit = handleSignupSubmit;
