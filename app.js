@@ -4,7 +4,8 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -893,6 +894,25 @@ function togglePasswordVisibility(passwordId) {
     passwordInput.type = "password";
   }
 }
+async function handleLogout() {
+  try {
+    await signOut(auth);
+
+    console.log("User logged out successfully");
+
+    document.getElementById('dashboard-frame')
+      ?.classList.add('hide');
+
+    document.getElementById('portal-view')
+      ?.classList.add('active-view');
+
+    switchPortalTab('login');
+
+  } catch (error) {
+    console.error("Logout error:", error);
+    alert("Logout failed. Please try again.");
+  }
+}
 
 // Initial load setup
 document.addEventListener('DOMContentLoaded', () => {
@@ -939,6 +959,7 @@ onAuthStateChanged(auth, async (user) => {
 window.switchPortalTab = switchPortalTab;
 window.handleLoginSubmit = handleLoginSubmit;
 window.handleSignupSubmit = handleSignupSubmit;
+window.handleLogout = handleLogout;
 
 window.switchDashboardView = switchDashboardView;
 window.toggleSidebarMenu = toggleSidebarMenu;
