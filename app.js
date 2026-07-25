@@ -40,7 +40,7 @@ console.log("Firebase Connected");
 // --------------------------------------------------------- //
 
 let currentUser = {
-  name: "Jagadeesh P",
+  name: [],
   email: "jagaa.swap@skillswap.org",
   experience: "5+ Years in Creative Design & UI/UX",
   bio: "Passionate UI developer matching digital graphics, prototyping, and brand animations. Eager to swapping programming logic with language learning or piano classes!",
