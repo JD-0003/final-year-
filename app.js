@@ -212,8 +212,11 @@ function toggleSidebarMenu() {
 
 // Close portal warning notifications
 function closePortalAlert() {
-  const alertBox = document.getElementById('portal-alert');
-  alertBox.classList.add('hide');
+  const alertBox =
+    document.getElementById('portal-alert');
+  if (alterBox){
+    alertBox.classList.add('hide');
+  }
 }
 
 function showPortalAlert(message, type = 'error') {
