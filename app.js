@@ -841,3 +841,21 @@ document.addEventListener('DOMContentLoaded', () => {
 window.switchPortalTab = switchPortalTab;
 window.handleLoginSubmit = handleLoginSubmit;
 window.handleSignupSubmit = handleSignupSubmit;
+
+window.switchDashboardView = switchDashboardView;
+window.toggleSidebarMenu = toggleSidebarMenu;
+window.toggleNotificationDropdown = toggleNotificationDropdown;
+window.clearNotifications = clearNotifications;
+window.toggleTheme = toggleTheme;
+
+window.connectUser = connectUser;
+window.openBookingModal = openBookingModal;
+window.closeBookingModal = closeBookingModal;
+window.handleBookingSubmit = handleBookingSubmit;
+window.cancelBookingSession = cancelBookingSession;
+window.joinSessionCall = joinSessionCall;
+window.filterBookingSessions = filterBookingSessions;
+
+window.toggleEditProfileModal = toggleEditProfileModal;
+window.handleProfileSave = handleProfileSave;
+window.handleSearchFilter = handleSearchFilter;
